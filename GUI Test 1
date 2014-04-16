@@ -1,0 +1,110 @@
+//So what I have made here is a gui that consists of a JList, 2 contentPanes, and 2 buttons
+//one button reads the text file and stores each line into an array. Then that array is displayed in the JList
+//This is just a rough draft of the gui. I thought only having 1 button would be sufficient. It basically just does everything.
+
+//just copy and paste this code into eclipse and run it.
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.Scanner;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+
+
+public class GUI extends JFrame{
+static String[] originalData = new String[100];	
+	public static String[] myData = new String[100];
+	static JButton doEverything = new JButton("Read text files and display infix and postfix");
+	static JButton exit = new JButton("Exit");
+	static JList display = extracted();
+	static Container top = new Container();
+	static Container bottom = new Container();
+	private static JList extracted() {
+		return new JList(originalData);
+	}
+
+	
+	 public GUI() {
+			
+			exit.addActionListener(new exitListener());
+			doEverything.addActionListener(new doEverythingListener());
+			setTitle("Infix-Postfix Application");
+			setSize(346,500); // default size is 0,0
+			setLocation(10,200); // default is 0,0 (top left corner)
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+		  }
+		
+		  public static void main(String[] args) throws FileNotFoundException {
+		
+			  	
+				for(int i = 0; i < originalData.length; i++){
+					originalData[i] = " ";
+				}
+				JFrame f = new GUI();
+			
+				
+				
+				
+				top.setLayout(new GridLayout(1,1));
+				bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
+				
+			
+				
+				f.add(top);
+				f.add(bottom, BorderLayout.SOUTH);
+				
+			
+				bottom.add(doEverything);
+				bottom.add(exit);
+				top.add(display);
+				
+				f.setVisible(true);
+		  }
+		  public class exitListener implements ActionListener{
+			  
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.exit(0);
+			}
+		  }
+		  
+		  public class doEverythingListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+			
+				try {
+					readFile(originalData);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				display.repaint();
+			}
+			  
+			  
+			  
+		  }
+		  public static void readFile(String[] array) throws FileNotFoundException{
+			  	PrintWriter outFile = new PrintWriter(new FileOutputStream(new File("test.txt"), true));
+				Scanner fileInput = new Scanner(new File("test.txt"));
+				
+				
+				int i = 0;
+				while(fileInput.hasNextLine()){
+					array[i] = fileInput.nextLine();
+					i++;
+				}
+				
+		  }
+}
