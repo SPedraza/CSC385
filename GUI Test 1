@@ -4,6 +4,10 @@
 
 //just copy and paste this code into eclipse and run it.
 
+//You will need a file called test.txt in the root folder of the project that this code is located for the file
+//input to work.
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
