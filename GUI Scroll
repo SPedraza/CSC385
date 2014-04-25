@@ -1,7 +1,12 @@
 package Project;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Scanner;
 
@@ -11,89 +16,84 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
-public class GUI extends JFrame {
-	static String[] originalData = new String[100];
+
+public class GUI extends JFrame{
+	static String[] originalData = new String[100];	
 	public static String[] myData = new String[100];
-	static JButton doEverything = new JButton(
-			"Read text files and display infix and postfix");
+	static JButton doEverything = new JButton("Read text files and display infix and postfix");
 	static JButton exit = new JButton("Exit");
 	static JList display = extracted();
-	static Container top = new Container();
 	static Container bottom = new Container();
-
+	static JScrollPane scroller = new JScrollPane();
 	private static JList extracted() {
 		return new JList(originalData);
-
 	}
 
-	public GUI() {
-		JTextArea textArea = new JTextArea(5, 30);
-		exit.addActionListener(new exitListener());
-		doEverything.addActionListener(new doEverythingListener());
-		setTitle("Infix-Postfix Application");
-		setSize(346, 500); // default size is 0,0
-		setLocation(10, 200); // default is 0,0 (top left corner)
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		JScrollPane scrollPane = new JScrollPane(textArea);
-		add(BorderLayout.CENTER, textArea);
-	}
-
-	public static void main(String[] args) throws FileNotFoundException {
-
-		for (int i = 0; i < originalData.length; i++) {
-			originalData[i] = " ";
-		}
-		JFrame f = new GUI();
-
-		top.setLayout(new GridLayout(1, 1));
-		bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
-
-		f.add(top);
-		f.add(bottom, BorderLayout.SOUTH);
-
-		bottom.add(doEverything);
-		bottom.add(exit);
-		top.add(display);
-
-		f.setVisible(true);
-	}
-
-	public class exitListener implements ActionListener {
-
-		public void actionPerformed(ActionEvent arg0) {
-
-			System.exit(0);
-		}
-	}
-
-	public class doEverythingListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-
-			try {
-				readFile(originalData);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	
+	 public GUI() {
+			exit.addActionListener(new exitListener());
+			doEverything.addActionListener(new doEverythingListener());
+			setTitle("Infix-Postfix Application");
+			setSize(346,500); // default size is 0,0
+			setLocation(10,200); // default is 0,0 (top left corner)
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+		  }
+		
+		  public static void main(String[] args) throws FileNotFoundException {
+		
+			  	
+				for(int i = 0; i < originalData.length; i++){
+					originalData[i] = " ";
+				}
+				JFrame f = new GUI();
+			
+				bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
+			
+				f.add(scroller);
+				f.add(bottom, BorderLayout.SOUTH);
+				
+				scroller.setViewportView(display);
+				bottom.add(doEverything);
+				bottom.add(exit);
+				
+				f.setVisible(true);
+		  }
+		  public class exitListener implements ActionListener{
+			  
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.exit(0);
 			}
-			display.repaint();
-		}
+		  }
+		  
+		  public class doEverythingListener implements ActionListener{
 
-	}
-
-	public static void readFile(String[] array) throws FileNotFoundException {
-		PrintWriter outFile = new PrintWriter(new FileOutputStream(new File(
-				"test.txt"), true));
-		Scanner fileInput = new Scanner(new File("test.txt"));
-
-		int i = 0;
-		while (fileInput.hasNextLine()) {
-			array[i] = fileInput.nextLine();
-			i++;
-		}
-
-	}
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+			
+				try {
+					readFile(originalData);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				display.repaint();
+			}
+			  
+			  
+			  
+		  }
+		  public static void readFile(String[] array) throws FileNotFoundException{
+			  	PrintWriter outFile = new PrintWriter(new FileOutputStream(new File("test.txt"), true));
+				Scanner fileInput = new Scanner(new File("test.txt"));
+				
+				
+				int i = 0;
+				while(fileInput.hasNextLine()){
+					array[i] = fileInput.nextLine();
+					i++;
+				}
+				
+		  }
 }
