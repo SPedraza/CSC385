@@ -1,0 +1,126 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+class Infix2Postfix {
+	private static boolean isOpenBracket(char m) {
+		if (m == '(')
+			return true;
+		else
+			return false;
+	}
+
+	private static boolean isOperator(char m) {
+		if (m == '+' || m == '-' || m == '/' || m == '*')
+			return true;
+		else
+			return false;
+	}
+
+	private static boolean isOperand(char m) {
+		if ((m >= '0' && m <= '9') || (m >= 'a' && m <= 'z')
+				|| (m >= 'A' && m <= 'Z'))
+			return true;
+		else
+			return false;
+	}
+
+	private static int priority(char ch) {
+		int priority;
+		priority = 0;
+		;
+		switch (ch) {
+		case '+':
+			priority = 3;
+			break;
+		case '-':
+			priority = 2;
+			break;
+		case '*':
+			priority = 5;
+			break;
+		case '/':
+			priority = 4;
+			break;
+		case '%':
+			priority = 1;
+			break;
+		}
+		return priority;
+	}
+
+	public static String convert(String str) {
+		char ch;
+		ADTStack s = new ADTStack();
+		int i, j;
+		j = 0;
+		char postfix[] = new char[str.length()];
+		for (i = 0; i < str.length(); i++) {
+			ch = str.charAt(i);
+			if (isOpenBracket(ch))
+				s.push(ch);
+			else if (isOperand(ch))
+				postfix[j++] = ch;
+			else if (isOperator(ch))
+				if (s.isEmpty())
+					s.push(ch);
+				else {
+					if (priority(ch) >= priority(s.peek()))
+						s.push(ch);
+					else {
+						while (priority(ch) < priority(s.peek()))
+							postfix[j++] = s.pop();
+						s.push(ch);
+					}
+				}
+			else if (!isOpenBracket(ch)) {
+				while (!isOpenBracket(s.peek()))
+					postfix[j++] = s.pop();
+				if (isOpenBracket(s.peek()))
+					s.pop();
+			}
+		}
+		while (!s.isEmpty()) {
+			postfix[j++] = s.pop();
+		}
+		/*for (i = 0; i < str.length(); i++){
+			System.out.print(postfix[i]);
+		}*/
+		String test = new String(postfix);
+		return test;
+	}
+
+	public static void main(String[] args) throws IOException {
+		String test = "( B + C ) / ( 7 * 2 + 3 )";
+		String test2 = "";
+		
+		for(int i = 0; i < test.length(); i++){
+			if(test.charAt(i) != ' '){
+				test2 += test.charAt(i);
+			}
+		}
+		
+		
+		
+		System.out.println(convert(test2));
+	}
+}
+/* TEST WITH THIS DATA
+a1 * ( b + c )
+( a * b + c
+a * ( b + c ) +
+1a * ( b + c )
+a+(b+c)
+(a+b)+c
+a-b*c
+(a/b)*(c/d)
+a/(b+c*d-e)
+a-b*c+d/e
+a1+(a2+a3)
+(12/134)*(12/132)
+A * 2 / 6
+( B + C ) / ( 7 * 2 + 3 )
+a + b - c
+a + - b c
+( ( a + c ) ) + 4
+*/
