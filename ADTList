@@ -1,0 +1,164 @@
+public class ADTList<T> 
+{
+
+	private Node<T> head; 
+	//declares linked list with data type T
+	private int numItems; 
+	//creates variable numItems to count the items in the linked list
+	
+	public ADTList () {
+		//sets up linked list
+		
+		head = null;
+		numItems = 0; 
+	}//end of ADTList
+
+	public boolean isEmpty (){
+		if (numItems==0){
+			return true; 
+			//if no items in the linked list return true
+		} else { 
+			return false; 
+			//return false if there are items in the list
+		}//end else statement
+	}//end isEmpty method
+	
+	public boolean isFull(){
+		return false; 
+		//linked list never runs out of room so never full return false
+	}//end of isFull method
+	
+	public int size (){
+		return numItems; 
+	}//end of size method 
+	
+	public boolean add(T item){
+		
+		Node <T> newNode = new Node<T> (item); 
+		//creates new node
+		if (isEmpty()){
+			head = newNode; 
+			//if no other nodes it makes it the head node
+		} else {
+			Node<T> temp=head;
+			for(int i=1; i<numItems; i++){
+				temp = temp.getNext(); 
+				//sets temp to the last node in the list
+			}
+			temp.setNext(newNode);
+			//creates new node at end of list
+		}
+		numItems++;
+		return true; 
+	}//end of adding an item
+	
+	public boolean add(int position, T item) {
+		
+		if (position < 1 || position > numItems+1){ 
+			return false; 
+			//checks if position is outside the list, if 
+			//outside returns false
+		} else { 
+			Node <T> newNode = new Node<T>(item); 
+			//creates new node
+			if(position == 1) {
+				newNode.setNext(head);
+				head = newNode;
+				//if node is to be in first it creates it and makes
+				// it the head node
+			} else {
+				Node<T> previous = head; 
+				for (int i=1; i<position-1; i++){
+					previous = previous.getNext();
+				}
+				Node<T> next = previous.getNext(); 
+				
+				newNode.setNext(next); 
+				previous.setNext(newNode);
+				//puts the new node in place and conects the nodes
+			}
+			numItems++;
+			return true; 
+		}// ends the if else statements 
+	} // ends the add method
+	
+	public boolean replace(int position, T item){
+		if(position < 1 || position > numItems){
+			return false; 
+		} else {
+			Node<T> target = head; 
+			for(int i=1; i<position; i++){
+				target = target.getNext(); 
+				// sets target to the node to be replaced
+			}
+			
+			target.setItem(item);
+			return true; 
+			//replaces the node item and returns true 
+		}// ends if else statement 
+	}// ends replace method
+	
+	public void clear (){
+		head = null; 
+		numItems = 0;
+	}//ends clear method
+	
+	public boolean contains(T item){ 
+		Node<T> travel = head;
+		
+		while(travel != null){
+			if(travel.getItem().equals(item)){
+				return true;
+				//checks if the current node is equal to the search item
+			}
+			
+			travel = travel.getNext(); 
+			//moves to the next node to be tested
+		}
+		
+		return false; 
+		//if not found it returns false
+	}// ends contains method
+	
+	public T get(int position){
+		if(position <1 || position > size()+1){
+			return null;
+		} else {
+			Node<T> temp = head; 
+		for (int i=1; i<position; i++){
+			temp = temp.getNext(); 
+			//makes temp equal the node to retrieve from
+		}
+		
+		return temp.getItem(); 
+		//gets the item from that node
+		}// ends if else statement
+	}//ends the get method
+	
+	public boolean remove(int position){
+		Node<T> temp = head; 
+		if (position < 1 || position > size()+1){
+			return false; 
+		} else { 
+		if (position == 1){
+			temp = temp.getNext(); 
+			head = temp; 
+			//if removing the first node it puts the head to the 
+			//next node
+			
+		}else {
+			for (int i=1; i<position-1; i++){
+				temp = temp.getNext(); 
+			}
+			temp.setNext(temp.getNext().getNext());
+			//takes the previous node from target and sets the next 
+			//node to the one after the target node 
+			}
+		numItems--; 
+		return true; 
+		}//ends if else 
+	}// ends remove method 
+	
+	
+}
+
