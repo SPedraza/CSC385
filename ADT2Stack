@@ -1,0 +1,43 @@
+
+//This is the actual ADTList class from the powerpoint
+public class ADT2Stack<T> {
+	
+	private Node<T> top;
+	
+	public ADT2Stack(){
+		top = null;
+	}
+	
+	public void push(T newItem){
+		Node<T> temp = new Node<T>(newItem);
+		temp.setNext(top);
+		top = temp;
+	}
+	
+	public boolean isEmpty(){
+		if(top == null){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public T pop(){
+		if(!isEmpty()){
+			Node<T> temp = top;
+			top = top.getNext();
+			return temp.getItem();
+		}else{
+			return null;
+		}
+	}
+	public T peek(){
+		if(!isEmpty()){
+			return top.getItem();
+		}else{
+			return null;
+		}
+	}
+	
+	
+}
