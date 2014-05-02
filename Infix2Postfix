@@ -1,10 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 
 class Infix2Postfix {
 	private static boolean isOpenBracket(char m) {
@@ -65,25 +65,40 @@ class Infix2Postfix {
 		ADTStack s = new ADTStack();
 		int i, j;
 		j = 0;
-		char postfix[] = new char[str.length()];
+		boolean needSpace = false;
+		char postfix[] = new char[str.length() + str.length()];
 		for (i = 0; i < str.length(); i++) {
 			ch = str.charAt(i);
 			if (isOpenBracket(ch))
 				s.push(ch);
-			else if (isOperand(ch))
+			else if (isOperand(ch)){
+				if(needSpace){
+					postfix[j++] = ' ';
+					needSpace = false;
+				}
 				postfix[j++] = ch;
-			else if (isOperator(ch))
+				
+			}
+			
+			else if (isOperator(ch)){
+				
+				needSpace = true;
 				if (s.isEmpty())
 					s.push(ch);
 				else {
 					if (priority(ch) >= priority(s.peek()))
 						s.push(ch);
 					else {
-						while (priority(ch) < priority(s.peek()))
+						
+						while (priority(ch) < priority(s.peek())){
+							
 							postfix[j++] = s.pop();
+						}
+						
 						s.push(ch);
 					}
 				}
+			}
 			else if (!isOpenBracket(ch)) {
 				while (!isOpenBracket(s.peek()))
 					postfix[j++] = s.pop();
@@ -94,19 +109,20 @@ class Infix2Postfix {
 		while (!s.isEmpty()) {
 			postfix[j++] = s.pop();
 		}
-		/*for (i = 0; i < str.length(); i++){
-			System.out.print(postfix[i]);
-		}*/
+		
 		String test = new String(postfix);
 		return test;
 	}
 
-	public static void main(String[] args) throws IOException {
-		String test = "( B + C ) / ( 7 * 2 + 3 )";
 
-		System.out.println(convert(test));
+		
 	}
-}
+	
+
+
+
+	
+
 /* TEST WITH THIS DATA
 a1 * ( b + c )
 ( a * b + c
