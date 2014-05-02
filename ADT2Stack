@@ -1,5 +1,4 @@
-
-//This is the actual ADTList class from the powerpoint
+//This is the actual ADTStack class from the powerpoint
 public class ADT2Stack<T> {
 	
 	private Node<T> top;
