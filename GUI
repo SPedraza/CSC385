@@ -20,7 +20,7 @@ public class GUI extends JFrame {
 	static String[] toPostfixData = new String[100];
 	static String[] toInfixData = new String[100];
 	static String[] displayData = new String[300];
-	static JButton doEverything = new JButton("Read text files and display infix and postfix");
+	static JButton doEverything = new JButton("Read text file and display infix and postfix");
 	static JButton exit = new JButton("Exit");
 	static JList display = extracted();
 	static Container bottom = new Container();
