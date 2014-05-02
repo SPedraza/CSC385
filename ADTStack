@@ -37,7 +37,7 @@ public class ADTStack {
 
 	public char peek() {
 		if (top == -1) {
-			System.out.println("empty, can not peek");
+	
 			return ' ';
 		}
 		return (items[top]);
