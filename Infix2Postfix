@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+//This code was partially taken from http://ankurm.com/codearchive/infix-postfix-conversion-using-stack-java/  (lines 65-83 and lines 85-118)
 
 class Infix2Postfix {
 	private static boolean isOpenBracket(char m) {
