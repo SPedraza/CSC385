@@ -1,6 +1,8 @@
 import java.io.*;
 import java.lang.*;
 
+//This stack method was from http://ankurm.com/codearchive/infix-postfix-conversion-using-stack-java/
+
 public class ADTStack {
 	private final int STACKSIZE = 100;
 	private int top;
