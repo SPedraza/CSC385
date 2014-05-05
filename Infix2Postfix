@@ -21,41 +21,44 @@ class Infix2Postfix {
 			return false;
 	}
 
-	private static boolean isOperand(char m) {
-		if ((m >= '0' && m <= '9') || (m >= 'a' && m <= 'z')
-				|| (m >= 'A' && m <= 'Z'))
+	private static boolean isNumOrLetter(char operand) {
+		if ((operand >= '0' && operand <= '9') || (operand >= 'a' && operand <= 'z')
+				|| (operand >= 'A' && operand <= 'Z'))
 			return true;
 		else
 			return false;
 	}
 
-	private static int priority(char ch) {
-		int priority;
-		priority = 0;
-		;
-		switch (ch) {
+	private static int orderOfOps(char character) {
+		int orderInOps;
+	
+		
+		switch (character) {
 		case '+':
-			priority = 3;
+			orderInOps = 3;
 			break;
 		case '-':
-			priority = 2;
+			orderInOps = 2;
 			break;
 		case '*':
-			priority = 5;
+			orderInOps = 5;
 			break;
 		case '/':
-			priority = 4;
+			orderInOps = 4;
 			break;
 		case '%':
-			priority = 1;
+			orderInOps = 1;
 			break;
+		default:
+				orderInOps = 0;
 		}
-		return priority;
+		return orderInOps;
 	}
 
 	public static String convert(String str) {
 		String str2 = str;
 		str = "";
+		//Removes all of the spaces
 		for(int i = 0; i < str2.length(); i++){
 			if(str2.charAt(i) != ' '){
 				str += str2.charAt(i);
@@ -63,15 +66,15 @@ class Infix2Postfix {
 		}
 		char ch;
 		ADTStack s = new ADTStack();
-		int i, j;
+		int cnt, j;
 		j = 0;
 		boolean needSpace = false;
 		char postfix[] = new char[str.length() + str.length()];
-		for (i = 0; i < str.length(); i++) {
-			ch = str.charAt(i);
+		for (cnt = 0; cnt < str.length(); cnt++) {
+			ch = str.charAt(cnt);
 			if (isOpenBracket(ch))
 				s.push(ch);
-			else if (isOperand(ch)){
+			else if (isNumOrLetter(ch)){
 				if(needSpace){
 					postfix[j++] = ' ';
 					needSpace = false;
@@ -86,11 +89,11 @@ class Infix2Postfix {
 				if (s.isEmpty())
 					s.push(ch);
 				else {
-					if (priority(ch) >= priority(s.peek()))
+					if (orderOfOps(ch) >= orderOfOps(s.peek()))
 						s.push(ch);
 					else {
 						
-						while (priority(ch) < priority(s.peek())){
+						while (orderOfOps(ch) < orderOfOps(s.peek())){
 							
 							postfix[j++] = s.pop();
 						}
